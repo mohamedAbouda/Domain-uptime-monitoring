@@ -13,6 +13,8 @@ const errorController = require('./controllers/error')
 const sequelize = require('./util/connection')
 const sync = require('./util/syncTables')
 const authenticateToken = require('./middleware/authenticateToken')
+var cron = require('node-cron');
+
 
 var app = express();
 require("dotenv").config();
@@ -50,3 +52,6 @@ app.use(errorController.renderError);
 module.exports = app;
 
 sync.syncTables()
+    // cron.schedule('*/5 * * * * *', () => {
+    //     console.log('running a task every minute');
+    // });
