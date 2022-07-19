@@ -13,8 +13,9 @@ router.post('/store',
     body('url').exists().isURL()
     .custom(value => {
         return Website.findOne({ where: { url: value } })
-            .then(() => {
-                return Promise.reject('URL already taken')
+            .then((result) => {
+                if (result)
+                    return Promise.reject('URL already taken')
             })
     }),
     websiteController.create);

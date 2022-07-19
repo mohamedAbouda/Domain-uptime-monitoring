@@ -16,8 +16,9 @@ router.post('/register',
     body('email').exists().isEmail()
     .custom(value => {
         return User.findOne({ where: { email: value } })
-            .then(() => {
-                return Promise.reject('Email already taken')
+            .then((result) => {
+                if (result)
+                    return Promise.reject('Email already taken')
             })
     }), authController.register);
 
