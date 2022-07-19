@@ -16,11 +16,6 @@ exports.login = async(req, res, next) => {
     try {
         // Get user input
         const { email, password } = req.body;
-
-        // Validate user input
-        if (!(email && password)) {
-            res.status(400).send("All input is required");
-        }
         // Validate if user exist in our database
         const user = await User.findOne({ where: { email: email } });
 
@@ -55,19 +50,6 @@ exports.register = async(req, res, next) => {
         // Get user input
         const { name, email, password } = req.body;
 
-        // Validate user input
-        if (!(email && password && name)) {
-            res.status(400).send("All input is required");
-        }
-
-        // check if user already exist
-        // Validate if user exist in our database
-        const oldUser = await User.findOne({ where: { email: email } });
-
-        if (oldUser) {
-            return res.status(409).send("User Already Exist. Please Login");
-        }
-
         //Encrypt user password
         encryptedPassword = await bcrypt.hash(password, 10);
 
@@ -81,7 +63,7 @@ exports.register = async(req, res, next) => {
         // Create token
         const token = jwt.sign({ user_id: user._id, email },
             process.env.TOKEN_KEY, {
-                expiresIn: "2h",
+                expiresIn: "168h",
             }
         );
         // save user token
