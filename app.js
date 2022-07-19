@@ -7,9 +7,11 @@ var session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var authRouter = require('./routes/auth')
 const errorController = require('./controllers/error')
 const sequelize = require('./util/connection')
 const sync = require('./util/syncTables')
+const authenticateToken = require('./middleware/authenticateToken')
 
 var app = express();
 require("dotenv").config();
@@ -31,8 +33,11 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: true }
 }))
+
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/users', authenticateToken, usersRouter);
+app.use('/api/auth', authRouter);
+
 
 // catch 404 and forward to error handler
 app.use(errorController.get404);
@@ -43,25 +48,3 @@ app.use(errorController.renderError);
 module.exports = app;
 
 sync.syncTables()
-
-const Product = require('./models/product')
-
-// Product.findByPk({
-//     title: 'title',
-//     price: 500,
-//     image_url: 'htllofjadlkf',
-//     description: 'description'
-// }).then(result => {
-//      console.log(result)
-// }).catch(err => {
-//     console.log(err)
-// });
-// var product = 1;
-// Product.findByPk(2).then(result => {
-//     result.destroy();
-//     console.log(result)
-// });
-// setTimeout(function() {
-//     console.log("Executed after 1 second");
-// }, 1000);
-// console.log(product)
