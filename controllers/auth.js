@@ -1,10 +1,17 @@
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const helpers = require('../helpers/helpers')
+const { validationResult } = require('express-validator');
+
 require("dotenv").config();
 
 exports.login = async(req, res, next) => {
 
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return helpers.showValidationErrors(res, errors)
+    }
     // Our login logic starts here
     try {
         // Get user input
@@ -21,7 +28,7 @@ exports.login = async(req, res, next) => {
             // Create token
             const token = jwt.sign({ user_id: user._id, email },
                 process.env.TOKEN_KEY, {
-                    expiresIn: "2h",
+                    expiresIn: "168h",
                 }
             );
 
@@ -39,6 +46,11 @@ exports.login = async(req, res, next) => {
 }
 
 exports.register = async(req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return helpers.showValidationErrors(res, errors)
+    }
+
     try {
         // Get user input
         const { name, email, password } = req.body;

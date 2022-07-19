@@ -36,7 +36,7 @@ app.use(session({
 }))
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/users', authenticateToken, usersRouter);
 app.use('/api/websites', authenticateToken, websiteRouter);
 app.use('/api/auth', authRouter);
 

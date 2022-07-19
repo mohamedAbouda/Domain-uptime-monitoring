@@ -1,4 +1,7 @@
 exports.getUser = (req, res, next) => {
 
-    res.send('respond with a resource');
+    return res.status(200).json({
+        'data': req.user,
+        'status': 200
+    });
 }
