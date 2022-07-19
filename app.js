@@ -8,6 +8,7 @@ var session = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth')
+var websiteRouter = require('./routes/websites')
 const errorController = require('./controllers/error')
 const sequelize = require('./util/connection')
 const sync = require('./util/syncTables')
@@ -35,7 +36,8 @@ app.use(session({
 }))
 
 app.use('/', indexRouter);
-app.use('/users', authenticateToken, usersRouter);
+app.use('/users', usersRouter);
+app.use('/api/websites', authenticateToken, websiteRouter);
 app.use('/api/auth', authRouter);
 
 

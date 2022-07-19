@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 require("dotenv").config();
 
 
@@ -13,9 +14,11 @@ function authenticateToken(req, res, next) {
 
         if (err) return res.sendStatus(403)
 
-        req.user = user
+        User.findOne({ where: { email: user.email } }).then(result => {
+            req.user = result
+            next()
+        });
 
-        next()
     })
 }
 module.exports = authenticateToken;

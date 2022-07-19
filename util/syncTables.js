@@ -1,8 +1,18 @@
 const sequelize = require('../util/connection')
-const product = require('../models/product')
-const user = require('../models/user')
+const Website = require('../models/website')
+const User = require('../models/user')
 
 
 exports.syncTables = () => {
-    sequelize.sync()
+
+    Website.belongsTo(User, {
+        constraints: true,
+        onDelete: 'CASCADE'
+    });
+
+    User.hasMany(Website);
+
+    sequelize.sync(
+        // { force: true }
+    )
 }
