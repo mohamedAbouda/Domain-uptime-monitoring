@@ -52,6 +52,13 @@ app.use(errorController.renderError);
 module.exports = app;
 
 sync.syncTables()
-    // cron.schedule('*/5 * * * * *', () => {
-    //     console.log('running a task every minute');
-    // });
+
+// const axios = require('axios')
+// cron.schedule('*/5 * * * * *', () => {
+//     var method = 'get';
+//     axios[method]('https://google.com')
+
+//     // Show response data
+//     .then(res => console.log(res.status))
+//         .catch(err => console.log(err))
+// });
