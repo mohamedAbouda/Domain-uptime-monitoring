@@ -1,6 +1,8 @@
 const sequelize = require('../util/connection')
 const Website = require('../models/website')
 const User = require('../models/user')
+require("dotenv").config();
+
 
 
 exports.syncTables = () => {
@@ -12,7 +14,5 @@ exports.syncTables = () => {
 
     User.hasMany(Website);
 
-    sequelize.sync(
-        // { force: true }
-    )
+    sequelize.sync({ force: !!+(process.env.DB_SYNC) })
 }
