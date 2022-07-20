@@ -28,6 +28,8 @@ router.get('/show',
     query('domain_id').exists(),
     DomainController.show);
 
+router.get('/down-time', DomainController.downTime);
+
 router.post('/update',
     body('domain_id').exists(),
     body('name').exists(),

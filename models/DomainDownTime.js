@@ -13,11 +13,6 @@ const DomainDownTime = sequelize.define('domain_down_time', {
         allowNull: true,
         defaultValue: null,
     },
-    emailSent: {
-        type: Sequelize.TINYINT,
-        allowNull: false,
-        defaultValue: 0
-    },
 }, {
     timestamps: false,
 });

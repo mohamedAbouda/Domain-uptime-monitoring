@@ -15,6 +15,10 @@ exports.syncTables = () => {
 
     User.hasMany(Domain);
     Domain.hasMany(DomainDownTime);
+    DomainDownTime.belongsTo(Domain, {
+        constraints: true,
+        onDelete: 'CASCADE'
+    });
 
     sequelize.sync({ force: !!+(process.env.DB_SYNC) })
 }

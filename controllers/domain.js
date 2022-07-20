@@ -1,4 +1,5 @@
 const Domain = require('../models/domain')
+const DomainDownTime = require('../models/DomainDownTime')
 const { validationResult } = require('express-validator');
 const helpers = require('../helpers/helpers')
 
@@ -114,4 +115,20 @@ exports.delete = (req, res, next) => {
                 'error': err,
             });
         })
+}
+
+exports.downTime = async(req, res, next) => {
+    var domainsDownTime = await DomainDownTime.findAll({
+        where: {
+            '$domain.user_id$': req.user.id
+        },
+        include: [{
+            model: Domain,
+        }]
+    })
+
+    return res.status(200).json({
+        'data': domainsDownTime,
+        'status': 200
+    });
 }
