@@ -12,9 +12,8 @@ var websiteRouter = require('./routes/websites')
 const errorController = require('./controllers/error')
 const sequelize = require('./util/connection')
 const sync = require('./util/syncTables')
+const registerCronJobs = require('./cron/registerCronJobs')
 const authenticateToken = require('./middleware/authenticateToken')
-var cron = require('node-cron');
-
 
 var app = express();
 require("dotenv").config();
@@ -52,13 +51,4 @@ app.use(errorController.renderError);
 module.exports = app;
 
 sync.syncTables()
-
-// const axios = require('axios')
-// cron.schedule('*/5 * * * * *', () => {
-//     var method = 'get';
-//     axios[method]('https://google.com')
-
-//     // Show response data
-//     .then(res => console.log(res.status))
-//         .catch(err => console.log(err))
-// });
+registerCronJobs.registerCronJobs();
