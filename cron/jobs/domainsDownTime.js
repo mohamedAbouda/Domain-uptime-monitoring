@@ -1,4 +1,4 @@
-const Website = require('../../models/website')
+const Domain = require('../../models/domain')
 const axios = require('axios')
 const email = require('../../util/email')
 const User = require('../../models/user')
@@ -6,7 +6,7 @@ const User = require('../../models/user')
 
 
 exports.monitoringDomainsDownTime = async() => {
-    var domains = await Website.findAll({ raw: true, include: User });
+    var domains = await Domain.findAll({ raw: true, include: User });
     domains.forEach(domain => {
         axios.get(domain.url)
             .then(res => {

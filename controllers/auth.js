@@ -12,11 +12,8 @@ exports.login = async(req, res, next) => {
     if (!errors.isEmpty()) {
         return helpers.showValidationErrors(res, errors)
     }
-    // Our login logic starts here
     try {
-        // Get user input
         const { email, password } = req.body;
-        // Validate if user exist in our database
         const user = await User.findOne({ where: { email: email } });
 
         if (user && (await bcrypt.compare(password, user.password))) {
@@ -27,11 +24,9 @@ exports.login = async(req, res, next) => {
                 }
             );
 
-            // save user token
             user.token = token;
             user.save();
 
-            // user
             return res.status(200).json(user);
         }
         return res.status(400).send("Invalid Credentials");
@@ -47,13 +42,10 @@ exports.register = async(req, res, next) => {
     }
 
     try {
-        // Get user input
         const { name, email, password } = req.body;
 
-        //Encrypt user password
         encryptedPassword = await bcrypt.hash(password, 10);
 
-        // Create user in our database
         const user = await User.create({
             name,
             email: email,
@@ -66,11 +58,9 @@ exports.register = async(req, res, next) => {
                 expiresIn: "168h",
             }
         );
-        // save user token
         user.token = token;
         user.save();
 
-        // return new user
         res.status(201).json(user);
     } catch (err) {
         console.log(err);

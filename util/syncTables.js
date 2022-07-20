@@ -1,5 +1,5 @@
 const sequelize = require('../util/connection')
-const Website = require('../models/website')
+const Domain = require('../models/domain')
 const User = require('../models/user')
 require("dotenv").config();
 
@@ -7,12 +7,12 @@ require("dotenv").config();
 
 exports.syncTables = () => {
 
-    Website.belongsTo(User, {
+    Domain.belongsTo(User, {
         constraints: true,
         onDelete: 'CASCADE'
     });
 
-    User.hasMany(Website);
+    User.hasMany(Domain);
 
     sequelize.sync({ force: !!+(process.env.DB_SYNC) })
 }

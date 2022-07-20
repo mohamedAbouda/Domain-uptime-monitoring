@@ -1,12 +1,12 @@
-const Website = require('../models/website')
+const Domain = require('../models/domain')
 const { validationResult } = require('express-validator');
 const helpers = require('../helpers/helpers')
 
 exports.list = async(req, res, next) => {
 
-    const websites = await req.user.getWebsites();
+    const Domains = await req.user.getDomains();
     return res.status(200).json({
-        'data': websites,
+        'data': Domains,
         'status': 200
     });
 }
@@ -19,7 +19,7 @@ exports.show = (req, res, next) => {
     }
 
     var domain_id = req.query.domain_id;
-    Website.findByPk(domain_id).then(result => {
+    Domain.findByPk(domain_id).then(result => {
             if (!result) {
                 return res.status(404).json({
                     'error': 'Can not find domain with this ID',
@@ -46,13 +46,19 @@ exports.update = async(req, res, next) => {
         return helpers.showValidationErrors(res, errors)
     }
 
-    var website = await Website.findByPk(req.body.domain_id);
-    website.update({
+    var domain = await Domain.findByPk(req.body.domain_id);
+    if (!domain) {
+        return res.status(404).json({
+            'error': 'Can not find domain with this ID',
+            'status': 404
+        });
+    }
+    domain.update({
         name: req.body.name,
         url: req.body.url
     });
     return res.status(200).json({
-        'message': 'Website has been updated',
+        'message': 'domain has been updated',
         'status': 200
     });
 
@@ -65,13 +71,13 @@ exports.create = (req, res, next) => {
         return helpers.showValidationErrors(res, errors)
     }
 
-    Website.create({
+    Domain.create({
         name: req.body.name,
         url: req.body.url,
         userId: req.user.id
     }).then(result => {
         return res.status(200).json({
-            'message': 'Website has been created',
+            'message': 'domain has been created',
             'status': 200
         });
     }).catch(err => {
@@ -90,7 +96,7 @@ exports.delete = (req, res, next) => {
 
     var domain_id = req.body.domain_id;
 
-    Website.findByPk(domain_id).then(result => {
+    Domain.findByPk(domain_id).then(result => {
             if (!result) {
                 return res.status(404).json({
                     'error': 'Can not find domain with this ID',
@@ -99,7 +105,7 @@ exports.delete = (req, res, next) => {
             }
             result.destroy();
             return res.status(200).json({
-                'message': 'Website has been deleted',
+                'message': 'domain has been deleted',
                 'status': 200
             });
         })

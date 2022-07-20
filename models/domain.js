@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 
 const sequelize = require('../util/connection')
 
-const Website = sequelize.define('website', {
+const Domain = sequelize.define('domain', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -18,4 +18,4 @@ const Website = sequelize.define('website', {
     },
 });
 
-module.exports = Website;
+module.exports = Domain;
