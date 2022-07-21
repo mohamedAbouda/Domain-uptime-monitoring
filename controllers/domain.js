@@ -132,3 +132,25 @@ exports.downTime = async(req, res, next) => {
         'status': 200
     });
 }
+
+exports.updateMonitoringState = async(req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return helpers.showValidationErrors(res, errors)
+    }
+
+    var domain = await Domain.findByPk(req.body.domain_id);
+    if (!domain) {
+        return res.status(404).json({
+            'error': 'Can not find domain with this ID',
+            'status': 404
+        });
+    }
+    domain.update({
+        isMonitoring: req.body.monitoring_state,
+    });
+    return res.status(200).json({
+        'message': 'domain monitoring state has been updated',
+        'status': 200
+    });
+}

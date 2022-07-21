@@ -36,4 +36,9 @@ router.post('/update',
     body('url').exists().isURL(),
     DomainController.update);
 
+router.post('/change/domain/monitoring-state',
+    body('domain_id').exists(),
+    body('monitoring_state').exists().isIn([0, 1]),
+    DomainController.updateMonitoringState);
+
 module.exports = router;

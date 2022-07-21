@@ -8,9 +8,15 @@ const DomainDownTime = require('../../models/DomainDownTime')
 
 
 exports.monitoringDomainsDownTime = async() => {
-    var domains = await Domain.findAll({ raw: true, include: User });
+    var domains = await Domain.findAll({
+        where: {
+            isMonitoring: 1
+        },
+        raw: true,
+        include: User
+    });
     domains.forEach(domain => {
-        axios.get(domain.url)
+        axios.get(addhttp(domain.url))
             .then(res => {
                 if (res.status == 200) {
                     domainIsUp(domain)
@@ -19,6 +25,7 @@ exports.monitoringDomainsDownTime = async() => {
                 }
             })
             .catch(err => {
+                console.log(err)
                 domainIsDown(domain)
             })
     });
@@ -29,7 +36,6 @@ async function domainIsDown(domain) {
         where: { domainId: domain.id, recoveryTime: null },
         defaults: {
             domainId: domain.id,
-            emailSent: 1
         }
     });
     if (created) {
@@ -45,4 +51,11 @@ async function domainIsUp(domain) {
         entry.save();
         email.send('timeMonitor@mail.com', domain['user.email'], domain.url + ' is up')
     }
+}
+
+function addhttp(url) {
+    if (!/^(?:f|ht)tps?\:\/\//.test(url)) {
+        url = "http://" + url;
+    }
+    return url;
 }

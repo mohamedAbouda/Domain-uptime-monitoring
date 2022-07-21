@@ -16,6 +16,11 @@ const Domain = sequelize.define('domain', {
         type: Sequelize.STRING,
         allowNull: false,
     },
+    isMonitoring: {
+        type: Sequelize.TINYINT,
+        allowNull: false,
+        defaultValue: 1,
+    },
 });
 
 module.exports = Domain;
