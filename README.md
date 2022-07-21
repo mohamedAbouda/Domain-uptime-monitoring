@@ -3,7 +3,7 @@
 
 ### Introduction
 
-an uptime monitoring RESTful API server that allows authenticated users to monitor URLs, and get uptime emails about their availability, and total uptime/downtime.
+an uptime monitoring RESTful API server built with node.js (express) that allows authenticated users to monitor URLs, and get uptime emails about their availability, and total uptime/downtime.
 
 ###  Overview
 
