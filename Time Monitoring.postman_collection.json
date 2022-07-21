@@ -1,0 +1,290 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Time Monitoring",
+		"_postman_id": "2c177a0f-0cf3-2c9c-2fb8-02b00adb1c46",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"description": "",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"url": "{{host}}/api/auth/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"mohamed@test.com\",\n\t\"password\": \"123456\"\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"url": "{{host}}/api/auth/register",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"mohamed Abouda\",\n\t\"email\": \"mohamed@test.com\",\n\t\"password\": \"123456\"\n\t\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"url": "{{host}}/api/users/current",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vaGFtZWRAdGVzdC5jb20iLCJpYXQiOjE2NTgyMjQ4NTcsImV4cCI6MTY1ODIzMjA1N30.bQ1yxwyVMRZtdqY-DtYy3bhdzLuxNEnGCvRdWiBO2gk",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Domains",
+			"description": "",
+			"item": [
+				{
+					"name": "Show All Domains",
+					"request": {
+						"url": "{{host}}/api/domains/",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vaGFtZWRAdGVzdC5jb20iLCJpYXQiOjE2NTgyNDEzNjgsImV4cCI6MTY1ODg0NjE2OH0.JICY5ucMTBEc6Gqh9A9zK_9qEC8iFVPvt-Sx26yTUps",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Show Domain",
+					"request": {
+						"url": {
+							"raw": "{{host}}/api/domains/show?domain_id=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"domains",
+								"show"
+							],
+							"query": [
+								{
+									"key": "domain_id",
+									"value": "1",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vaGFtZWRAdGVzdC5jb20iLCJpYXQiOjE2NTgyNDEzNjgsImV4cCI6MTY1ODg0NjE2OH0.JICY5ucMTBEc6Gqh9A9zK_9qEC8iFVPvt-Sx26yTUps",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Domains Down Times",
+					"request": {
+						"url": "{{host}}/api/domains/down-time",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vaGFtZWRAdGVzdC5jb20iLCJpYXQiOjE2NTgyNDEzNjgsImV4cCI6MTY1ODg0NjE2OH0.JICY5ucMTBEc6Gqh9A9zK_9qEC8iFVPvt-Sx26yTUps",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Domain",
+					"request": {
+						"url": "{{host}}/api/domains/delete",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vaGFtZWRAdGVzdC5jb20iLCJpYXQiOjE2NTgyNDEzNjgsImV4cCI6MTY1ODg0NjE2OH0.JICY5ucMTBEc6Gqh9A9zK_9qEC8iFVPvt-Sx26yTUps",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"domain_id\": 1\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create Domain",
+					"request": {
+						"url": "{{host}}/api/domains/store",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vaGFtZWRAdGVzdC5jb20iLCJpYXQiOjE2NTgyNDEzNjgsImV4cCI6MTY1ODg0NjE2OH0.JICY5ucMTBEc6Gqh9A9zK_9qEC8iFVPvt-Sx26yTUps",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"hello\",\n\t\"url\": \"google.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Domain",
+					"request": {
+						"url": "{{host}}/api/domains/update",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vaGFtZWRAdGVzdC5jb20iLCJpYXQiOjE2NTgyNDEzNjgsImV4cCI6MTY1ODg0NjE2OH0.JICY5ucMTBEc6Gqh9A9zK_9qEC8iFVPvt-Sx26yTUps",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"domain_id\": 3,\n\t\"name\": \"helwwlo\",\n\t\"url\": \"facebook.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Domain Monitoring State",
+					"request": {
+						"url": "{{host}}/api/domains/change/domain/monitoring-state",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vaGFtZWRAdGVzdC5jb20iLCJpYXQiOjE2NTgyNDEzNjgsImV4cCI6MTY1ODg0NjE2OH0.JICY5ucMTBEc6Gqh9A9zK_9qEC8iFVPvt-Sx26yTUps",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"domain_id\": 1,\n\t\"monitoring_state\": 1\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
