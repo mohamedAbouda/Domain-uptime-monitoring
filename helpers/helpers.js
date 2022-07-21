@@ -4,3 +4,13 @@ exports.showValidationErrors = (res, errors) => {
         status: 422
     });
 }
+
+exports.sendingEmail = (context, subject, template, userEmail) => {
+    email.sendMail({
+        from: process.env.FROM_EMAIL,
+        to: userEmail,
+        subject: subject,
+        template: template,
+        context: context,
+    });
+}

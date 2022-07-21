@@ -14,6 +14,8 @@ const sequelize = require('./util/connection')
 const sync = require('./util/syncTables')
 const registerCronJobs = require('./cron/registerCronJobs')
 const authenticateToken = require('./middleware/authenticateToken')
+const nodemailer = require('./util/emailInit')
+
 
 var app = express();
 require("dotenv").config();
@@ -52,3 +54,4 @@ module.exports = app;
 
 sync.syncTables()
 registerCronJobs.registerCronJobs();
+nodemailer.initialize()

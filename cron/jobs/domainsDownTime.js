@@ -1,9 +1,10 @@
 const Domain = require('../../models/domain')
 const axios = require('axios')
-const email = require('../../util/email')
 const User = require('../../models/user')
 const moment = require('moment')
 const DomainDownTime = require('../../models/DomainDownTime')
+const helpers = require('../../helpers/helpers')
+require("dotenv").config()
 
 
 
@@ -25,7 +26,6 @@ exports.monitoringDomainsDownTime = async() => {
                 }
             })
             .catch(err => {
-                console.log(err)
                 domainIsDown(domain)
             })
     });
@@ -38,10 +38,14 @@ async function domainIsDown(domain) {
             domainId: domain.id,
         }
     });
-    if (created) {
-        email.send('timeMonitor@mail.com', domain['user.email'], domain.url + ' is down')
-    }
 
+    if (created) {
+        helpers.sendingEmail({
+                domainUrl: domain.url,
+                userName: domain['user.name'],
+            },
+            'Your Domain is down', 'domain-down', domain['user.email']);
+    }
 }
 
 async function domainIsUp(domain) {
@@ -49,7 +53,13 @@ async function domainIsUp(domain) {
     if (entry) {
         entry.recoveryTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
         entry.save();
-        email.send('timeMonitor@mail.com', domain['user.email'], domain.url + ' is up')
+        helpers.sendingEmail({
+                domainUrl: domain.url,
+                userName: domain['user.name'],
+                downTime: entry.downTime,
+                recoveryTime: entry.recoveryTime
+            },
+            'Your Domain is up and running', 'domain-up', domain['user.email']);
     }
 }
 
