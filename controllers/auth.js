@@ -1,6 +1,7 @@
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+require("dotenv").config();
 const helpers = require('../helpers/helpers')
 const { validationResult } = require('express-validator');
 
@@ -55,10 +56,11 @@ exports.register = async(req, res, next) => {
             password: encryptedPassword,
         });
 
-        user.verificationToken = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+        user.verificationToken = helpers.hashString(email, 'md5')
         user.save();
         helpers.sendingEmail({
-                verificationUrl: 'http://localhost:3000/api/auth/verify/' + user.verificationToken,
+                verificationUrl: process.env.BASE_URL + ':' + (process.env.PORT || '3000') +
+                    '/api/auth/verify/' + user.verificationToken,
                 userName: user.name,
             },
             'Email Verification', 'verify-email', user.email);
@@ -74,7 +76,7 @@ exports.verify = async(req, res, next) => {
     if (!user) {
         return res.status(404).send("can't find your data");
     }
-    if (user.verificationToken == 1) {
+    if (user.isVerified == 1) {
         return res.status(200).send("Your email is already verified");
     }
     user.isVerified = 1
