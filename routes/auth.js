@@ -10,7 +10,7 @@ router.post('/login',
     body('email').exists().isEmail(),
     authController.login);
 
-router.get('/verify/:id', authController.verify);
+router.get('/verify/:hash', authController.verify);
 
 router.post('/register',
     body('name').exists(),

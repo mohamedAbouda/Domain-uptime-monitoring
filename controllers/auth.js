@@ -72,7 +72,7 @@ exports.register = async(req, res, next) => {
 }
 
 exports.verify = async(req, res, next) => {
-    var user = await User.findOne({ where: { verificationToken: req.params.id } });
+    var user = await User.findOne({ where: { verificationToken: req.params.hash } });
     if (!user) {
         return res.status(404).send("can't find your data");
     }
