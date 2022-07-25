@@ -10,6 +10,8 @@ router.post('/login',
     body('email').exists().isEmail(),
     authController.login);
 
+router.get('/verify/:id', authController.verify);
+
 router.post('/register',
     body('name').exists(),
     body('password').exists(),

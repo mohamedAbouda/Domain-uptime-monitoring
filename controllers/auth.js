@@ -18,6 +18,9 @@ exports.login = async(req, res, next) => {
 
         if (user && (await bcrypt.compare(password, user.password))) {
             // Create token
+            if (user.isVerified != 1) {
+                return res.status(400).send("Please verify your email first");
+            }
             const token = jwt.sign({ user_id: user._id, email },
                 process.env.TOKEN_KEY, {
                     expiresIn: "168h",
@@ -52,17 +55,29 @@ exports.register = async(req, res, next) => {
             password: encryptedPassword,
         });
 
-        // Create token
-        const token = jwt.sign({ user_id: user._id, email },
-            process.env.TOKEN_KEY, {
-                expiresIn: "168h",
-            }
-        );
-        user.token = token;
+        user.verificationToken = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
         user.save();
-
-        res.status(201).json(user);
+        helpers.sendingEmail({
+                verificationUrl: 'http://localhost:3000/api/auth/verify/' + user.verificationToken,
+                userName: user.name,
+            },
+            'Email Verification', 'verify-email', user.email);
+        res.status(201).send('Please , verify your email first')
+            // res.status(201).json(user);
     } catch (err) {
         console.log(err);
     }
+}
+
+exports.verify = async(req, res, next) => {
+    var user = await User.findOne({ where: { verificationToken: req.params.id } });
+    if (!user) {
+        return res.status(404).send("can't find your data");
+    }
+    if (user.verificationToken == 1) {
+        return res.status(200).send("Your email is already verified");
+    }
+    user.isVerified = 1
+    user.save();
+    res.send('Email verified')
 }
