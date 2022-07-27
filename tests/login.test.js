@@ -1,24 +1,29 @@
 const app = require("../app");
-const request = require("supertest");
-const User = require("../models/user");
+const request = require("supertest")
+const User = require("../models/user")
 const bcrypt = require('bcrypt')
+require("dotenv").config()
 
 
 // beforeAll(async() => {
 // });
+const email = process.env.UNIT_TEST_EMAIL || 'test@unitTest.com'
+const name = process.env.UNIT_TEST_NAME || 'unit test'
+const password = process.env.UNIT_TEST_PASSWORD || '123456'
+
 
 beforeEach(async() => {
-    encryptedPassword = await bcrypt.hash('123456', 10);
+    encryptedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
-        name: 'unit test',
-        email: 'test@unitTest.com',
+        name: name,
+        email: email,
         password: encryptedPassword,
         isVerified: 1,
     });
 })
 
 afterEach(async() => {
-    var user = await User.findOne({ where: { email: 'test@unitTest.com' } });
+    var user = await User.findOne({ where: { email: email } });
     if (user) {
         await user.destroy()
     }
@@ -32,8 +37,8 @@ describe("POST login", () => {
         const res = await request(app)
             .post("/api/auth/login")
             .send({
-                email: "test@unitTest.com",
-                password: "123456"
+                email: email,
+                password: password
             });
         expect(res.body).toHaveProperty('user')
         expect(res.statusCode).toBe(200);
