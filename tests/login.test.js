@@ -7,6 +7,7 @@ require("dotenv").config()
 
 // beforeAll(async() => {
 // });
+
 const email = process.env.UNIT_TEST_EMAIL || 'test@unitTest.com'
 const name = process.env.UNIT_TEST_NAME || 'unit test'
 const password = process.env.UNIT_TEST_PASSWORD || '123456'
@@ -14,7 +15,7 @@ const password = process.env.UNIT_TEST_PASSWORD || '123456'
 
 beforeEach(async() => {
     encryptedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({
+    await User.create({
         name: name,
         email: email,
         password: encryptedPassword,
