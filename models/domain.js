@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
-
 const sequelize = require('../util/connection')
+const helpers = require('../helpers/helpers')
 
 const Domain = sequelize.define('domain', {
     id: {
@@ -22,5 +22,15 @@ const Domain = sequelize.define('domain', {
         defaultValue: 1,
     },
 });
+Domain.afterCreate(async(domain, options) => {
+    helpers.getAllDomains()
+});
+
+Domain.afterUpdate(async(domain, options) => {
+    if (domain.isMonitoring == 1) {
+        helpers.getAllDomains()
+    }
+});
+
 
 module.exports = Domain;

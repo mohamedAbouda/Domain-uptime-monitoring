@@ -11,14 +11,12 @@ var authRouter = require('./routes/auth')
 var domainsRouter = require('./routes/domains')
 const errorController = require('./controllers/error')
 const sequelize = require('./util/connection')
-const sync = require('./util/syncTables')
-const registerCronJobs = require('./cron/registerCronJobs')
 const authenticateToken = require('./middleware/authenticateToken')
-const nodemailer = require('./util/emailInit')
-
+const appServiceProvider = require('./loaders/AppServiceProvider')
 
 var app = express();
 require("dotenv").config();
+
 
 
 // view engine setup
@@ -52,6 +50,4 @@ app.use(errorController.renderError);
 
 module.exports = app;
 
-sync.syncTables()
-registerCronJobs.registerCronJobs();
-nodemailer.initialize()
+appServiceProvider.initializeServices()

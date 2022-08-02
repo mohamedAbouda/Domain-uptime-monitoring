@@ -9,13 +9,7 @@ require("dotenv").config()
 
 
 exports.monitoringDomainsDownTime = async() => {
-    var domains = await Domain.findAll({
-        where: {
-            isMonitoring: 1
-        },
-        raw: true,
-        include: User
-    });
+    var domains = JSON.parse(await redisClient.get('domains'))
     domains.forEach(domain => {
         axios.get(addhttp(domain.url))
             .then(res => {
